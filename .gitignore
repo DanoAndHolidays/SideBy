@@ -1,0 +1,12 @@
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+.env
+*.log
+
+frontend/node_modules/
+frontend/dist/
+
+backend/target/
+
