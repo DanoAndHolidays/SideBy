@@ -113,6 +113,44 @@
   color: var(--color-primary-dark);
 }
 
+.sidebarAuth {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.sidebarAuthLabel {
+  overflow: hidden;
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebarLogout {
+  flex: none;
+  padding: 6px 12px;
+  color: var(--color-primary-dark);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: var(--color-primary-soft);
+  border: 0;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.sidebarLogout:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
 .sidebarNote {
   margin-top: auto;
   color: var(--color-muted);

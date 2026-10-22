@@ -19,4 +19,15 @@ export default tseslint.config(
       globals: globals.browser,
     },
   },
+  {
+    // authStore 按惯例同时导出 Provider 组件和 useAuth hook，
+    // 这不会破坏 Fast Refresh（组件与 hook 都在本文件中定义）。
+    files: ['src/features/auth/authStore.tsx'],
+    rules: {
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowExportNames: ['useAuth'] },
+      ],
+    },
+  },
 )

@@ -25,12 +25,13 @@ export async function request<T>(
   path: string,
   init: RequestInit = {},
 ): Promise<ApiResponse<T>> {
+  const headers = new Headers(init.headers)
+  headers.set('Accept', 'application/json')
+
   const response = await fetch(path, {
     ...init,
-    headers: {
-      Accept: 'application/json',
-      ...init.headers,
-    },
+    credentials: init.credentials ?? 'include',
+    headers,
   })
 
   const body = (await response.json().catch(() => null)) as

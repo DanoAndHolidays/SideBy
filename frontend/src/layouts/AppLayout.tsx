@@ -1,4 +1,6 @@
-import { NavLink, Outlet } from 'react-router-dom'
+import { useState } from 'react'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { useAuth } from '../features/auth/authStore'
 import styles from './AppLayout.module.css'
 
 const navigation = [
@@ -30,6 +32,21 @@ function Navigation() {
 }
 
 export function AppLayout() {
+  const navigate = useNavigate()
+  const { status, currentUser, logout } = useAuth()
+  const [loggingOut, setLoggingOut] = useState(false)
+
+  async function handleLogout() {
+    setLoggingOut(true)
+
+    try {
+      await logout()
+      navigate('/login', { replace: true })
+    } finally {
+      setLoggingOut(false)
+    }
+  }
+
   return (
     <div className={styles.shell}>
       <aside className={styles.sidebar}>
@@ -47,6 +64,34 @@ export function AppLayout() {
           </span>
         </NavLink>
         <Navigation />
+
+        <div className={styles.sidebarAuth}>
+          {status === 'authenticated' && currentUser ? (
+            <>
+              <span
+                className={styles.sidebarAuthLabel}
+                title={currentUser.email}
+              >
+                {currentUser.displayName || currentUser.username}
+              </span>
+              <button
+                type="button"
+                className={styles.sidebarLogout}
+                onClick={handleLogout}
+                disabled={loggingOut}
+              >
+                {loggingOut ? '退出中……' : '退出'}
+              </button>
+            </>
+          ) : status === 'loading' ? (
+            <span className={styles.sidebarAuthLabel}>检查登录状态…</span>
+          ) : (
+            <NavLink to="/login" className={styles.sidebarAuthLabel}>
+              登录
+            </NavLink>
+          )}
+        </div>
+
         <p className={styles.sidebarNote}>在陌生城市，也能找到同行的人。</p>
       </aside>
 
@@ -56,13 +101,38 @@ export function AppLayout() {
             <span className={styles.brandMark}>S</span>
             <strong>SideBy</strong>
           </NavLink>
-          <NavLink to="/login" className={styles.loginLink}>
-            登录
-          </NavLink>
+
+          {status === 'authenticated' && currentUser ? (
+            <button
+              type="button"
+              className={styles.loginLink}
+              onClick={handleLogout}
+              disabled={loggingOut}
+              style={{
+                padding: 0,
+                font: 'inherit',
+                background: 'transparent',
+                border: 0,
+                cursor: loggingOut ? 'wait' : 'pointer',
+              }}
+            >
+              {loggingOut
+                ? '退出中……'
+                : `${currentUser.displayName || currentUser.username} · 退出`}
+            </button>
+          ) : status === 'loading' ? (
+            <span className={styles.loginLink}>检查登录状态…</span>
+          ) : (
+            <NavLink to="/login" className={styles.loginLink}>
+              登录
+            </NavLink>
+          )}
         </header>
+
         <main className={styles.main}>
           <Outlet />
         </main>
+
         <div className={styles.mobileNav}>
           <Navigation />
         </div>

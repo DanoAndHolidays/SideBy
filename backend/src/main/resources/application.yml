@@ -1,10 +1,15 @@
 spring:
+  # Spring Boot does not read .env automatically; import it explicitly for local development.
+  config:
+    import:
+      - optional:file:.env[.properties]
+      - optional:file:../.env[.properties]
   application:
     name: sideby-backend
   datasource:
     url: jdbc:mysql://${DB_HOST:127.0.0.1}:${DB_PORT:3306}/${DB_NAME:sideby}?useUnicode=true&characterEncoding=UTF-8&connectionTimeZone=UTC&forceConnectionTimeZoneToSession=true&serverTimezone=UTC
-    username: ${DB_USERNAME:sideby}
-    password: ${DB_PASSWORD:sideby_local_password}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:123456}
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       connection-timeout: 3000
@@ -44,4 +49,3 @@ logging:
   level:
     root: INFO
     com.sideby: INFO
-
