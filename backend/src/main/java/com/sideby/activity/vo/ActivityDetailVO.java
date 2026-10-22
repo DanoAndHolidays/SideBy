@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 public class ActivityDetailVO {
-    private Long id;
-    private Long creatorId;
+    private String id;
+    private String creatorId;
     private String creatorDisplayName;
     private String creatorUsername;
     private String title;

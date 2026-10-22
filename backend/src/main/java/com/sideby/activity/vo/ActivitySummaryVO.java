@@ -7,9 +7,9 @@ import java.time.LocalDateTime;
 
 @Setter
 @Getter
-public class ActivitySummeryVO {
-    private Long id;
-    private Long creatorId;
+public class ActivitySummaryVO {
+    private String id;
+    private String creatorId;
     private String creatorDisplayName;
     private String title;
     private String category;
@@ -22,5 +22,5 @@ public class ActivitySummeryVO {
     private int participantCount;
     private String status;
     private String coverUrl;
-
 }
+

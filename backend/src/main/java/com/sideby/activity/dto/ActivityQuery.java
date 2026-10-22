@@ -1,6 +1,7 @@
 package com.sideby.activity.dto;
 
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,24 +14,28 @@ public class ActivityQuery {
     //category    可选
     //keyword     可选，匹配标题
 
-    @Size(min = 1)
-    private int page;
+    @Min(value = 1, message = "page must be at least 1")
+    private int page = 1;
 
-    @Size(min = 1, max = 50, message = "pageSize must be between 1 and 50")
-    private int getPage;
+    @Min(value = 1, message = "pageSize must be at least 1")
+    @Max(value = 50, message = "pageSize must not exceed 50")
+    private int pageSize = 20;
 
     private String city;
     private String category;
     private String keyword;
 
-    public ActivityQuery(int page, int getPage) {
-        this.page = page;
-        this.getPage = getPage;
+    public ActivityQuery() {
     }
 
-    public ActivityQuery(int page, int getPage, String city, String category, String keyword) {
+    public ActivityQuery(int page, int pageSize) {
         this.page = page;
-        this.getPage = getPage;
+        this.pageSize = pageSize;
+    }
+
+    public ActivityQuery(int page, int pageSize, String city, String category, String keyword) {
+        this.page = page;
+        this.pageSize = pageSize;
         this.city = city;
         this.category = category;
         this.keyword = keyword;
